@@ -1,18 +1,27 @@
+{% extends "units/base.html" %}
+{% block title %}{{ unit.name }}{% endblock %}
+{% block content %}
 <a href="{% url 'unit_list' %}">&larr; Back</a>
-<h1>{{ unit.name }}</h1>
-<img src="{{ unit.profile_image_link }}" width="150" alt="{{ unit.name }}">
-<ul>
-  <li>Type: {{ unit.type }}</li>
-  <li>Team: {{ unit.team }}</li>
-  <li>Health: {{ unit.health }}</li>
-  <li>Attack points: {{ unit.attack_points }}</li>
-</ul>
-<h2>Fights</h2>
+
+<div class="card" style="display:flex; gap:20px; align-items:center; margin-top:12px;">
+  <img src="{{ unit.profile_image_link }}" alt="{{ unit.name }}"
+       style="width:120px; height:120px; border-radius:12px; object-fit:cover;">
+  <div style="flex:1;">
+    <h1 style="margin-bottom:4px;">{{ unit.name }} <span class="badge {{ unit.team }}">{{ unit.team }}</span></h1>
+    <div class="muted">{{ unit.type }} · Attack {{ unit.attack_points }}</div>
+    <div class="muted" style="margin-top:8px;">Health {{ unit.health }} / 100</div>
+    <div class="bar"><span style="width: {{ unit.health }}%"></span></div>
+  </div>
+</div>
+
+<h2 style="margin-top:24px;">Fights</h2>
 {% for fight in fights %}
-  <div style="border:1px solid #ccc; padding:8px; margin:8px 0;">
+  <div class="card">
     <strong>{{ fight.unit1.name }} vs {{ fight.unit2.name }}</strong>
-    <p>Winner: {{ fight.winner.name }}</p>
-    <table border="1" cellpadding="4">
+    <div class="muted" style="margin-bottom:8px;">
+      Winner: <strong>{{ fight.winner.name }}</strong> · {{ fight.created_at|date:"d M Y, H:i" }}
+    </div>
+    <table>
       <tr>
         <th>#</th><th>Attacker</th><th>Defender</th>
         <th>Damage</th><th>Attacker HP</th><th>Defender HP</th>
@@ -32,3 +41,4 @@
 {% empty %}
   <p>No fights yet.</p>
 {% endfor %}
+{% endblock %}

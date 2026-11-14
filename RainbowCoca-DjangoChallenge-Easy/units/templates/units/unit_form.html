@@ -1,6 +1,12 @@
+{% extends "units/base.html" %}
+{% block title %}Add unit{% endblock %}
+{% block content %}
 <h1>Add unit</h1>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Add</button>
-</form>
+<div class="card">
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add</button>
+  </form>
+</div>
+{% endblock %}
