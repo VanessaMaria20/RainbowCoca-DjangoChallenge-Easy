@@ -36,3 +36,17 @@
 {% empty %}
   <p>No units yet.</p>
 {% endfor %}
+<h2>Statistics</h2>
+<table border="1" cellpadding="4">
+  <tr>
+    <th>Team</th><th>Fights</th><th>Damage caused</th><th>Damage taken</th>
+  </tr>
+  {% for s in stats %}
+    <tr>
+      <td>{{ s.team }}</td>
+      <td>{{ s.fights }}</td>
+      <td>{{ s.damage_caused }}</td>
+      <td>{{ s.damage_taken }}</td>
+    </tr>
+  {% endfor %}
+</table>
