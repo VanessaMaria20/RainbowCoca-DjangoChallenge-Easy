@@ -1,0 +1,9 @@
+<a href="{% url 'unit_list' %}">&larr; Back</a>
+<h1>{{ unit.name }}</h1>
+<img src="{{ unit.profile_image_link }}" width="150" alt="{{ unit.name }}">
+<ul>
+  <li>Type: {{ unit.type }}</li>
+  <li>Team: {{ unit.team }}</li>
+  <li>Health: {{ unit.health }}</li>
+  <li>Attack points: {{ unit.attack_points }}</li>
+</ul>

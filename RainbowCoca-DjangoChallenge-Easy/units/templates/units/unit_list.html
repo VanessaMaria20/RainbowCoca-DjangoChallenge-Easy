@@ -1,0 +1,22 @@
+<h1>Units</h1>
+<a href="{% url 'unit_create' %}">Add unit</a>
+
+{% for unit in units %}
+  <div class="card" onclick="location.href='{% url 'unit_detail' unit.id %}'"
+       style="display:flex; align-items:center; gap:10px; border:1px solid #ccc;
+              padding:8px; margin:8px 0; cursor:pointer;">
+    <img src="{{ unit.profile_image_link }}" width="50" height="50" alt="{{ unit.name }}">
+    <div>
+      <strong>{{ unit.name }}</strong> ({{ unit.type }})
+    </div>
+    {% if unit.health < 100 %}
+      <form method="post" action="{% url 'unit_heal' unit.id %}"
+            onclick="event.stopPropagation()">
+        {% csrf_token %}
+        <button type="submit">Heal</button>
+      </form>
+    {% endif %}
+  </div>
+{% empty %}
+  <p>No units yet.</p>
+{% endfor %}
