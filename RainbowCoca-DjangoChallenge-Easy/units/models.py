@@ -26,4 +26,22 @@ class Unit(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.team})"
+class Fight(models.Model):
+    unit1 = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="fights_as_unit1")
+    unit2 = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="fights_as_unit2")
+    winner = models.ForeignKey(Unit, on_delete=models.SET_NULL, null=True, related_name="fights_won")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class FightStep(models.Model):
+    fight = models.ForeignKey(Fight, on_delete=models.CASCADE, related_name="steps")
+    order = models.PositiveIntegerField()
+    attacker = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="attacks")
+    defender = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="defenses")
+    damage = models.PositiveIntegerField()
+    attacker_health = models.IntegerField()
+    defender_health = models.IntegerField()
+
+    class Meta:
+        ordering = ["order"]
 # Create your models here.

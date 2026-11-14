@@ -1,13 +1,29 @@
 <h1>Units</h1>
 <a href="{% url 'unit_create' %}">Add unit</a>
 
+{% if messages %}
+  <ul>
+    {% for message in messages %}
+      <li style="color: {% if message.tags == 'error' %}red{% else %}green{% endif %};">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<form id="simulate-form" method="post" action="{% url 'simulate_fight' %}">
+  {% csrf_token %}
+  <button type="submit">Simulate</button>
+</form>
+
 {% for unit in units %}
   <div class="card" onclick="location.href='{% url 'unit_detail' unit.id %}'"
        style="display:flex; align-items:center; gap:10px; border:1px solid #ccc;
               padding:8px; margin:8px 0; cursor:pointer;">
+    <input type="checkbox" name="units" value="{{ unit.id }}" form="simulate-form"
+           onclick="event.stopPropagation()">
     <img src="{{ unit.profile_image_link }}" width="50" height="50" alt="{{ unit.name }}">
     <div>
-      <strong>{{ unit.name }}</strong> ({{ unit.type }})
+      <strong>{{ unit.name }}</strong> ({{ unit.type }})<br>
+      <small>{{ unit.team }} · health {{ unit.health }}</small>
     </div>
     {% if unit.health < 100 %}
       <form method="post" action="{% url 'unit_heal' unit.id %}"
